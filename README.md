@@ -2,6 +2,24 @@
 
 **2.0.0** · 面向 Windows 10 / 11 的 C 盘清理工具。原生 WPF 界面，原则是：先预览、后确认、可回收、有日志。
 
+## 界面截图
+
+![总览](docs/screenshots/01-dashboard.png)
+
+*总览 / Dashboard*
+
+![垃圾清理](docs/screenshots/02-junk.png)
+
+*垃圾清理 / Junk cleanup*
+
+![聊天软件专清](docs/screenshots/04-chat.png)
+
+*聊天软件专清 / Chat-app cleanup*
+
+![设置](docs/screenshots/18-settings.png)
+
+*设置 / Settings*
+
 ## 功能特性
 
 - 先列出将要处理的文件与体积，确认后再执行；默认移入回收站。
@@ -38,6 +56,24 @@ dotnet run --project src/DiskPro.App/DiskPro.App.csproj
 # DiskPro
 
 **2.0.0** · A C: drive cleanup tool for Windows 10 / 11. Native WPF UI. The rule is: preview first, confirm next, prefer Recycle Bin, and keep logs.
+
+## Screenshots
+
+![Dashboard](docs/screenshots/01-dashboard.png)
+
+*总览 / Dashboard*
+
+![Junk cleanup](docs/screenshots/02-junk.png)
+
+*垃圾清理 / Junk cleanup*
+
+![Chat-app cleanup](docs/screenshots/04-chat.png)
+
+*聊天软件专清 / Chat-app cleanup*
+
+![Settings](docs/screenshots/18-settings.png)
+
+*设置 / Settings*
 
 ## Features
 
