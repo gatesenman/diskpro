@@ -1,0 +1,40 @@
+<UserControl x:Class="DiskPro.App.Views.JunkPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:v="clr-namespace:DiskPro.App.Views">
+  <DockPanel>
+    <v:BusyBar DockPanel.Dock="Bottom" Margin="0,12,0,0"/>
+    <Border DockPanel.Dock="Top" Style="{StaticResource Toolbar}">
+      <DockPanel>
+        <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
+          <TextBlock Style="{StaticResource Muted}" FontSize="13" VerticalAlignment="Center" Margin="0,0,16,0">
+            <Run Text="共发现 "/><Run Text="{Binding TotalText, Mode=OneWay}" FontWeight="SemiBold" Foreground="{DynamicResource TextBrush}"/><Run Text="  ·  已选 "/><Run Text="{Binding SelectedText, Mode=OneWay}" FontWeight="SemiBold" Foreground="{DynamicResource AccentBrush}"/>
+          </TextBlock>
+          <Button Style="{StaticResource DangerButton}" Command="{Binding CleanCommand}">
+            <StackPanel Orientation="Horizontal"><TextBlock Text="&#xE74D;" Style="{StaticResource Icon}" FontSize="13" Margin="0,0,8,0"/><TextBlock Text="清理所选"/></StackPanel>
+          </Button>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+          <Button Style="{StaticResource PrimaryButton}" Command="{Binding ScanCommand}">
+            <StackPanel Orientation="Horizontal"><TextBlock Text="&#xE721;" Style="{StaticResource Icon}" FontSize="13" Margin="0,0,8,0"/><TextBlock Text="开始扫描"/></StackPanel>
+          </Button>
+          <Button Content="全选" Command="{Binding SelectAllCommand}" Margin="8,0,0,0"/>
+          <Button Content="全不选" Command="{Binding SelectNoneCommand}" Margin="8,0,0,0"/>
+          <CheckBox Content="包含可选应用缓存（IM 等）" IsChecked="{Binding IncludeOptional}" VerticalAlignment="Center" Margin="16,0,0,0"/>
+        </StackPanel>
+      </DockPanel>
+    </Border>
+    <Grid>
+      <ScrollViewer VerticalScrollBarVisibility="Auto" Visibility="{Binding VisibleCount, Converter={StaticResource CountToVis}}">
+        <ItemsControl ItemsSource="{Binding Categories}" ItemTemplate="{StaticResource JunkCategoryTemplate}"/>
+      </ScrollViewer>
+      <ContentControl Style="{StaticResource EmptyState}" Tag="&#xE74D;" Visibility="{Binding VisibleCount, Converter={StaticResource ZeroToVis}}">
+        <StackPanel>
+          <TextBlock Text="扫描系统垃圾" Style="{StaticResource H2}" HorizontalAlignment="Center"/>
+          <TextBlock Text="临时文件、更新缓存、错误报告、浏览器缓存、着色器缓存等 17 类，点击“开始扫描”。" Style="{StaticResource Muted}" Margin="0,8,0,16" HorizontalAlignment="Center"/>
+          <Button Style="{StaticResource PrimaryButton}" Content="开始扫描" Command="{Binding ScanCommand}" HorizontalAlignment="Center" Padding="28,0"/>
+        </StackPanel>
+      </ContentControl>
+    </Grid>
+  </DockPanel>
+</UserControl>

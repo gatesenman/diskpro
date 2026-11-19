@@ -1,0 +1,58 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <!-- DiskPro design tokens · Dark -->
+  <Color x:Key="BgColor">#FF111318</Color>
+  <Color x:Key="SidebarColor">#FF0C0E12</Color>
+  <Color x:Key="SurfaceColor">#FF1A1D24</Color>
+  <Color x:Key="Surface2Color">#FF232731</Color>
+  <Color x:Key="Surface3Color">#FF2D3240</Color>
+  <Color x:Key="BorderColor">#FF2B303B</Color>
+  <Color x:Key="TextColor">#FFF1F3F7</Color>
+  <Color x:Key="TextSecondaryColor">#FF9AA3B2</Color>
+  <Color x:Key="TextTertiaryColor">#FF6B7382</Color>
+  <Color x:Key="AccentColor">#FF2F7BFF</Color>
+  <Color x:Key="AccentHoverColor">#FF4C8EFF</Color>
+  <Color x:Key="AccentPressedColor">#FF1F63E0</Color>
+  <Color x:Key="Accent2Color">#FF16C1D8</Color>
+  <Color x:Key="AccentSoftColor">#262F7BFF</Color>
+  <Color x:Key="SuccessColor">#FF22C55E</Color>
+  <Color x:Key="SuccessSoftColor">#2622C55E</Color>
+  <Color x:Key="WarningColor">#FFF59E0B</Color>
+  <Color x:Key="WarningSoftColor">#26F59E0B</Color>
+  <Color x:Key="DangerColor">#FFEF4444</Color>
+  <Color x:Key="DangerSoftColor">#26EF4444</Color>
+  <Color x:Key="HoverColor">#14FFFFFF</Color>
+  <Color x:Key="PressedColor">#22FFFFFF</Color>
+  <Color x:Key="ShadowColor">#FF000000</Color>
+  <Color x:Key="OverlayColor">#99000000</Color>
+
+  <SolidColorBrush x:Key="BgBrush" Color="{StaticResource BgColor}"/>
+  <SolidColorBrush x:Key="SidebarBrush" Color="{StaticResource SidebarColor}"/>
+  <SolidColorBrush x:Key="SurfaceBrush" Color="{StaticResource SurfaceColor}"/>
+  <SolidColorBrush x:Key="Surface2Brush" Color="{StaticResource Surface2Color}"/>
+  <SolidColorBrush x:Key="Surface3Brush" Color="{StaticResource Surface3Color}"/>
+  <SolidColorBrush x:Key="BorderBrush" Color="{StaticResource BorderColor}"/>
+  <SolidColorBrush x:Key="TextBrush" Color="{StaticResource TextColor}"/>
+  <SolidColorBrush x:Key="TextSecondaryBrush" Color="{StaticResource TextSecondaryColor}"/>
+  <SolidColorBrush x:Key="TextTertiaryBrush" Color="{StaticResource TextTertiaryColor}"/>
+  <SolidColorBrush x:Key="AccentBrush" Color="{StaticResource AccentColor}"/>
+  <SolidColorBrush x:Key="AccentHoverBrush" Color="{StaticResource AccentHoverColor}"/>
+  <SolidColorBrush x:Key="AccentPressedBrush" Color="{StaticResource AccentPressedColor}"/>
+  <SolidColorBrush x:Key="AccentSoftBrush" Color="{StaticResource AccentSoftColor}"/>
+  <SolidColorBrush x:Key="SuccessBrush" Color="{StaticResource SuccessColor}"/>
+  <SolidColorBrush x:Key="SuccessSoftBrush" Color="{StaticResource SuccessSoftColor}"/>
+  <SolidColorBrush x:Key="WarningBrush" Color="{StaticResource WarningColor}"/>
+  <SolidColorBrush x:Key="WarningSoftBrush" Color="{StaticResource WarningSoftColor}"/>
+  <SolidColorBrush x:Key="DangerBrush" Color="{StaticResource DangerColor}"/>
+  <SolidColorBrush x:Key="DangerSoftBrush" Color="{StaticResource DangerSoftColor}"/>
+  <SolidColorBrush x:Key="HoverBrush" Color="{StaticResource HoverColor}"/>
+  <SolidColorBrush x:Key="PressedBrush" Color="{StaticResource PressedColor}"/>
+  <SolidColorBrush x:Key="OverlayBrush" Color="{StaticResource OverlayColor}"/>
+  <LinearGradientBrush x:Key="AccentGradientBrush" StartPoint="0,0" EndPoint="1,1">
+    <GradientStop Color="#FF2F7BFF" Offset="0"/><GradientStop Color="#FF16C1D8" Offset="1"/>
+  </LinearGradientBrush>
+  <LinearGradientBrush x:Key="HeroBrush" StartPoint="0,0" EndPoint="1,1">
+    <GradientStop Color="#FF1B2440" Offset="0"/><GradientStop Color="#FF15202B" Offset="1"/>
+  </LinearGradientBrush>
+  <sys:Double xmlns:sys="clr-namespace:System;assembly=mscorlib" x:Key="ShadowOpacity">0.45</sys:Double>
+</ResourceDictionary>

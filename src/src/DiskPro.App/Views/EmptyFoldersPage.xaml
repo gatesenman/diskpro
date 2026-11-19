@@ -1,0 +1,73 @@
+<UserControl x:Class="DiskPro.App.Views.EmptyFoldersPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:v="clr-namespace:DiskPro.App.Views">
+  <DockPanel>
+    <v:BusyBar DockPanel.Dock="Bottom" Margin="0,12,0,0"/>
+    <Border DockPanel.Dock="Top" Style="{StaticResource Toolbar}">
+      <DockPanel>
+        <Button DockPanel.Dock="Right" Style="{StaticResource DangerButton}" Command="{Binding DeleteCommand}">
+          <StackPanel Orientation="Horizontal"><TextBlock Text="&#xE74D;" Style="{StaticResource Icon}" FontSize="13" Margin="0,0,8,0"/><TextBlock Text="删除所选"/></StackPanel>
+        </Button>
+        <DockPanel>
+          <TextBlock DockPanel.Dock="Left" Text="空文件夹扫描位置" Style="{StaticResource ToolbarLabel}"/>
+          <Button DockPanel.Dock="Right" Style="{StaticResource PrimaryButton}" Command="{Binding ScanCommand}" Margin="12,0,12,0">
+            <StackPanel Orientation="Horizontal"><TextBlock Text="&#xE721;" Style="{StaticResource Icon}" FontSize="13" Margin="0,0,8,0"/><TextBlock Text="开始扫描"/></StackPanel>
+          </Button>
+          <Button DockPanel.Dock="Right" Content="浏览…" Command="{Binding BrowseCommand}" Margin="8,0,0,0"/>
+          <TextBox Text="{Binding Root, UpdateSourceTrigger=PropertyChanged}" MaxWidth="420" HorizontalAlignment="Left" MinWidth="260"/>
+        </DockPanel>
+      </DockPanel>
+    </Border>
+    <TextBlock DockPanel.Dock="Top" Text="{Binding SelectedText}" Style="{StaticResource Muted}" Margin="2,0,0,10"/>
+    <Grid>
+      <Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="16"/><ColumnDefinition/></Grid.ColumnDefinitions>
+      <Border Style="{StaticResource ListCard}">
+        <DockPanel>
+          <DockPanel DockPanel.Dock="Top" Margin="16,12">
+            <TextBlock DockPanel.Dock="Right" Text="{Binding Folders.Count}" Style="{StaticResource Muted}"/>
+            <TextBlock Text="空文件夹" Style="{StaticResource H3}"/>
+          </DockPanel>
+          <Grid>
+            <DataGrid ItemsSource="{Binding Folders}" HeadersVisibility="None">
+              <DataGrid.Columns>
+                <DataGridTemplateColumn Width="44"><DataGridTemplateColumn.CellTemplate><DataTemplate><CheckBox IsChecked="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"/></DataTemplate></DataGridTemplateColumn.CellTemplate></DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="*"><DataGridTemplateColumn.CellTemplate><DataTemplate><TextBlock Text="{Binding Path}" Style="{StaticResource CellTrim}"/></DataTemplate></DataGridTemplateColumn.CellTemplate></DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="48"><DataGridTemplateColumn.CellTemplate><DataTemplate>
+                  <Button Style="{StaticResource IconButton}" Content="&#xE8DA;" ToolTip="打开" Command="{Binding DataContext.OpenCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}"/>
+                </DataTemplate></DataGridTemplateColumn.CellTemplate></DataGridTemplateColumn>
+              </DataGrid.Columns>
+            </DataGrid>
+            <ContentControl Style="{StaticResource EmptyState}" Tag="&#xE8B7;" Visibility="{Binding Folders.Count, Converter={StaticResource ZeroToVis}}">
+              <TextBlock Text="暂无结果，点击“开始扫描”" Style="{StaticResource Muted}"/>
+            </ContentControl>
+          </Grid>
+        </DockPanel>
+      </Border>
+      <Border Grid.Column="2" Style="{StaticResource ListCard}">
+        <DockPanel>
+          <DockPanel DockPanel.Dock="Top" Margin="16,12">
+            <TextBlock DockPanel.Dock="Right" Text="{Binding Shortcuts.Count}" Style="{StaticResource Muted}"/>
+            <TextBlock Text="无效快捷方式（桌面 / 开始菜单）" Style="{StaticResource H3}"/>
+          </DockPanel>
+          <Grid>
+            <DataGrid ItemsSource="{Binding Shortcuts}" HeadersVisibility="None" RowHeight="46">
+              <DataGrid.Columns>
+                <DataGridTemplateColumn Width="44"><DataGridTemplateColumn.CellTemplate><DataTemplate><CheckBox IsChecked="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"/></DataTemplate></DataGridTemplateColumn.CellTemplate></DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="*"><DataGridTemplateColumn.CellTemplate><DataTemplate>
+                  <StackPanel><TextBlock Text="{Binding Path}" Style="{StaticResource CellTrim}"/><TextBlock Style="{StaticResource Caption}" TextTrimming="CharacterEllipsis"><Run Text="目标不存在："/><Run Text="{Binding Detail, Mode=OneWay}"/></TextBlock></StackPanel>
+                </DataTemplate></DataGridTemplateColumn.CellTemplate></DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="48"><DataGridTemplateColumn.CellTemplate><DataTemplate>
+                  <Button Style="{StaticResource IconButton}" Content="&#xE8DA;" ToolTip="定位" Command="{Binding DataContext.OpenCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}"/>
+                </DataTemplate></DataGridTemplateColumn.CellTemplate></DataGridTemplateColumn>
+              </DataGrid.Columns>
+            </DataGrid>
+            <ContentControl Style="{StaticResource EmptyState}" Tag="&#xE71B;" Visibility="{Binding Shortcuts.Count, Converter={StaticResource ZeroToVis}}">
+              <TextBlock Text="暂无结果" Style="{StaticResource Muted}"/>
+            </ContentControl>
+          </Grid>
+        </DockPanel>
+      </Border>
+    </Grid>
+  </DockPanel>
+</UserControl>

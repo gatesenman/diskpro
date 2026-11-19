@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{090B528A-F126-4942-B3AB-E5715C7FBD6E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiskPro.Tests", "tests\DiskPro.Tests\DiskPro.Tests.csproj", "{8FBA61DD-280E-4401-8A2B-B3A76B11D152}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{870311E5-3F4B-4203-8D78-B735686DD0FF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiskPro.App", "src\DiskPro.App\DiskPro.App.csproj", "{80E26C4F-4737-4F35-9DE2-FC10C2120C0E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8FBA61DD-280E-4401-8A2B-B3A76B11D152}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FBA61DD-280E-4401-8A2B-B3A76B11D152}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FBA61DD-280E-4401-8A2B-B3A76B11D152}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FBA61DD-280E-4401-8A2B-B3A76B11D152}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80E26C4F-4737-4F35-9DE2-FC10C2120C0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80E26C4F-4737-4F35-9DE2-FC10C2120C0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80E26C4F-4737-4F35-9DE2-FC10C2120C0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80E26C4F-4737-4F35-9DE2-FC10C2120C0E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8FBA61DD-280E-4401-8A2B-B3A76B11D152} = {090B528A-F126-4942-B3AB-E5715C7FBD6E}
+		{80E26C4F-4737-4F35-9DE2-FC10C2120C0E} = {870311E5-3F4B-4203-8D78-B735686DD0FF}
+	EndGlobalSection
+EndGlobal

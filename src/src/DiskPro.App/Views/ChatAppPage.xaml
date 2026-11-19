@@ -1,0 +1,77 @@
+<UserControl x:Class="DiskPro.App.Views.ChatAppPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:v="clr-namespace:DiskPro.App.Views">
+  <DockPanel>
+    <v:BusyBar DockPanel.Dock="Bottom" Margin="0,12,0,0"/>
+    <Border DockPanel.Dock="Top" Style="{StaticResource Toolbar}">
+      <DockPanel>
+        <Button DockPanel.Dock="Right" Style="{StaticResource DangerButton}" Command="{Binding DeleteCommand}">
+          <StackPanel Orientation="Horizontal"><TextBlock Text="&#xE74D;" Style="{StaticResource Icon}" FontSize="13" Margin="0,0,8,0"/><TextBlock Text="删除所选"/></StackPanel>
+        </Button>
+        <WrapPanel>
+          <Button Style="{StaticResource PrimaryButton}" Command="{Binding ScanCommand}" Margin="0,0,16,0">
+            <StackPanel Orientation="Horizontal"><TextBlock Text="&#xE721;" Style="{StaticResource Icon}" FontSize="13" Margin="0,0,8,0"/><TextBlock Text="开始分析"/></StackPanel>
+          </Button>
+          <TextBlock Text="类型" Style="{StaticResource ToolbarLabel}"/>
+          <ComboBox ItemsSource="{Binding KindFilters}" SelectedIndex="{Binding KindIndex}" Width="110" Margin="0,0,12,0"/>
+          <TextBlock Text="修改于" Style="{StaticResource ToolbarLabel}"/>
+          <ComboBox ItemsSource="{Binding AgeFilters}" SelectedIndex="{Binding AgeIndex}" Width="110" Margin="0,0,12,0"/>
+          <Button Content="全选筛选结果" Command="{Binding SelectAllFilteredCommand}" Margin="0,0,8,0"/>
+          <Button Content="取消选择" Command="{Binding SelectNoneCommand}"/>
+        </WrapPanel>
+      </DockPanel>
+    </Border>
+    <Grid>
+      <DockPanel Visibility="{Binding Apps.Count, Converter={StaticResource CountToVis}}">
+        <ItemsControl DockPanel.Dock="Top" ItemsSource="{Binding Apps}" Margin="0,0,-12,0">
+          <ItemsControl.ItemsPanel><ItemsPanelTemplate><UniformGrid Rows="1"/></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+          <ItemsControl.ItemTemplate>
+            <DataTemplate>
+              <Border Style="{StaticResource Card}" Margin="0,0,12,12" Padding="16,14">
+                <DockPanel>
+                  <Border DockPanel.Dock="Left" Style="{StaticResource IconTile}" Margin="0,0,12,0" Background="{DynamicResource SuccessSoftBrush}">
+                    <TextBlock Text="{Binding Glyph}" Style="{StaticResource Icon}" Foreground="{DynamicResource SuccessBrush}"/>
+                  </Border>
+                  <Button DockPanel.Dock="Right" Style="{StaticResource IconButton}" Content="&#xE8DA;" ToolTip="打开目录" VerticalAlignment="Top"
+                          Command="{Binding DataContext.OpenCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}"/>
+                  <StackPanel>
+                    <StackPanel Orientation="Horizontal"><TextBlock Text="{Binding App}" Style="{StaticResource H3}"/><TextBlock Text="{Binding TotalText}" FontWeight="SemiBold" Foreground="{DynamicResource AccentBrush}" Margin="10,0,0,0"/></StackPanel>
+                    <TextBlock Text="{Binding Breakdown}" Style="{StaticResource Caption}" Margin="0,4,0,0" TextTrimming="CharacterEllipsis" ToolTip="{Binding Breakdown}"/>
+                  </StackPanel>
+                </DockPanel>
+              </Border>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <DockPanel DockPanel.Dock="Top" Margin="2,0,2,8">
+          <TextBlock DockPanel.Dock="Right" Text="{Binding SelectedText}" Foreground="{DynamicResource AccentBrush}" FontWeight="SemiBold"/>
+          <TextBlock Text="{Binding FilterSummary}" Style="{StaticResource Muted}" TextTrimming="CharacterEllipsis"/>
+        </DockPanel>
+        <Border Style="{StaticResource ListCard}">
+          <DataGrid ItemsSource="{Binding Files}">
+            <DataGrid.Columns>
+              <DataGridTemplateColumn Width="44"><DataGridTemplateColumn.CellTemplate><DataTemplate><CheckBox IsChecked="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"/></DataTemplate></DataGridTemplateColumn.CellTemplate></DataGridTemplateColumn>
+              <DataGridTemplateColumn Header="文件名" Width="2*" SortMemberPath="Name"><DataGridTemplateColumn.CellTemplate><DataTemplate><TextBlock Text="{Binding Name}" Style="{StaticResource CellTrim}"/></DataTemplate></DataGridTemplateColumn.CellTemplate></DataGridTemplateColumn>
+              <DataGridTextColumn Header="软件" Binding="{Binding App, Mode=OneWay}" Width="80"/>
+              <DataGridTextColumn Header="类型" Binding="{Binding KindText, Mode=OneWay}" Width="60"/>
+              <DataGridTextColumn Header="大小" Binding="{Binding SizeText, Mode=OneWay}" SortMemberPath="Size" Width="90"/>
+              <DataGridTextColumn Header="修改日期" Binding="{Binding ModifiedText, Mode=OneWay}" SortMemberPath="Modified" Width="100"/>
+              <DataGridTemplateColumn Header="位置" Width="3*"><DataGridTemplateColumn.CellTemplate><DataTemplate><TextBlock Text="{Binding Path}" Style="{StaticResource CellTrim}" Foreground="{DynamicResource TextSecondaryBrush}"/></DataTemplate></DataGridTemplateColumn.CellTemplate></DataGridTemplateColumn>
+              <DataGridTemplateColumn Width="52"><DataGridTemplateColumn.CellTemplate><DataTemplate>
+                <Button Style="{StaticResource IconButton}" Content="&#xE8DA;" ToolTip="定位文件" Command="{Binding DataContext.OpenCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}"/>
+              </DataTemplate></DataGridTemplateColumn.CellTemplate></DataGridTemplateColumn>
+            </DataGrid.Columns>
+          </DataGrid>
+        </Border>
+      </DockPanel>
+      <ContentControl Style="{StaticResource EmptyState}" Tag="&#xE8BD;" Visibility="{Binding Apps.Count, Converter={StaticResource ZeroToVis}}">
+        <StackPanel>
+          <TextBlock Text="聊天软件专清" Style="{StaticResource H2}" HorizontalAlignment="Center"/>
+          <TextBlock Text="微信、QQ、钉钉长期使用会在 C 盘积累大量图片、视频和接收的文件。分析后可按类型与时间筛选，安全删除不再需要的文件；聊天记录数据库不会被列出。" Style="{StaticResource Muted}" MaxWidth="540" TextAlignment="Center" Margin="0,8,0,16"/>
+          <Button Style="{StaticResource PrimaryButton}" Content="开始分析" Command="{Binding ScanCommand}" HorizontalAlignment="Center" Padding="28,0"/>
+        </StackPanel>
+      </ContentControl>
+    </Grid>
+  </DockPanel>
+</UserControl>

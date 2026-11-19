@@ -1,0 +1,71 @@
+<UserControl x:Class="DiskPro.App.Views.SettingsPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <ScrollViewer VerticalScrollBarVisibility="Auto">
+    <StackPanel MaxWidth="980" HorizontalAlignment="Stretch">
+      <Border Style="{StaticResource Card}">
+        <StackPanel>
+          <TextBlock Text="安全" Style="{StaticResource H2}" Margin="0,0,0,14"/>
+          <CheckBox Style="{StaticResource Toggle}" IsChecked="{Binding DryRun}" Margin="0,0,0,14">
+            <StackPanel><TextBlock Text="仅预览模式（Dry-run）"/><TextBlock Text="所有删除与系统修改只记录日志、不实际执行，适合首次使用时熟悉功能" Style="{StaticResource Caption}"/></StackPanel>
+          </CheckBox>
+          <CheckBox Style="{StaticResource Toggle}" IsChecked="{Binding PreferRecycleBin}" Margin="0,0,0,14">
+            <StackPanel><TextBlock Text="删除个人文件时默认移至回收站"/><TextBlock Text="大文件、重复文件、聊天文件等删除后仍可从回收站恢复（缓存类垃圾始终直接删除）" Style="{StaticResource Caption}"/></StackPanel>
+          </CheckBox>
+          <CheckBox Style="{StaticResource Toggle}" IsChecked="{Binding RestorePointBeforeRisky}" Margin="0,0,0,14">
+            <StackPanel><TextBlock Text="高风险系统操作前提示创建还原点"/><TextBlock Text="例如删除旧驱动、迁移虚拟内存" Style="{StaticResource Caption}"/></StackPanel>
+          </CheckBox>
+          <CheckBox Style="{StaticResource Toggle}" IsChecked="{Binding IncludeOptional}">
+            <StackPanel><TextBlock Text="垃圾扫描包含即时通讯缓存"/><TextBlock Text="微信 / QQ 等缓存目录，清理前请先退出这些程序" Style="{StaticResource Caption}"/></StackPanel>
+          </CheckBox>
+        </StackPanel>
+      </Border>
+      <Border Style="{StaticResource Card}">
+        <StackPanel>
+          <TextBlock Text="外观" Style="{StaticResource H2}" Margin="0,0,0,14"/>
+          <CheckBox Style="{StaticResource Toggle}" IsChecked="{Binding DarkTheme}">
+            <StackPanel><TextBlock Text="深色主题"/><TextBlock Text="也可点击标题栏右上角的主题按钮快速切换" Style="{StaticResource Caption}"/></StackPanel>
+          </CheckBox>
+        </StackPanel>
+      </Border>
+      <Border Style="{StaticResource Card}">
+        <StackPanel>
+          <TextBlock Text="排除列表" Style="{StaticResource H2}"/>
+          <TextBlock Text="排除的文件夹或通配符（如 *.psd、D:\Projects）在所有扫描中都会被跳过，且永远不会被删除。" Style="{StaticResource Caption}" Margin="0,4,0,12"/>
+          <DockPanel Margin="0,0,0,10">
+            <Button DockPanel.Dock="Right" Content="添加文件夹…" Command="{Binding AddFolderCommand}" Margin="8,0,0,0"/>
+            <Button DockPanel.Dock="Right" Style="{StaticResource PrimaryButton}" Content="添加" Command="{Binding AddPatternCommand}" Margin="8,0,0,0"/>
+            <TextBox Text="{Binding NewPattern, UpdateSourceTrigger=PropertyChanged}" ToolTip="输入路径或通配符，例如 *.psd"/>
+          </DockPanel>
+          <Border BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" CornerRadius="8" MinHeight="48">
+            <Grid>
+              <ItemsControl ItemsSource="{Binding Exclusions}" Margin="4">
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate>
+                    <DockPanel Margin="8,2">
+                      <Button DockPanel.Dock="Right" Style="{StaticResource IconButton}" Content="&#xE711;" ToolTip="移除" FontSize="11"
+                              Command="{Binding DataContext.RemoveExclusionCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}"/>
+                      <TextBlock Text="{Binding}" VerticalAlignment="Center" FontFamily="Consolas, Microsoft YaHei UI"/>
+                    </DockPanel>
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+              <TextBlock Text="暂无排除项" Style="{StaticResource Caption}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                         Visibility="{Binding Exclusions.Count, Converter={StaticResource ZeroToVis}}"/>
+            </Grid>
+          </Border>
+        </StackPanel>
+      </Border>
+      <Border Style="{StaticResource Card}">
+        <Expander>
+          <Expander.Header><TextBlock Text="受保护的系统路径（硬性规则，任何模块都无法删除）" Style="{StaticResource H3}"/></Expander.Header>
+          <ItemsControl ItemsSource="{Binding ProtectedPaths}" Margin="0,8,0,0">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate><TextBlock Text="{Binding}" FontFamily="Consolas, Microsoft YaHei UI" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,2"/></DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </Expander>
+      </Border>
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>

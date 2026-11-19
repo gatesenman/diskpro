@@ -1,0 +1,193 @@
+<UserControl x:Class="DiskPro.App.Views.DashboardPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ctl="clr-namespace:DiskPro.App.Controls">
+  <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+    <StackPanel>
+      <!-- ============ HERO ============ -->
+      <Border CornerRadius="16" Padding="28,24" Background="{DynamicResource HeroBrush}" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" Margin="0,0,0,16">
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+          </Grid.ColumnDefinitions>
+
+          <!-- Ring -->
+          <Grid Width="176" Height="176" VerticalAlignment="Center">
+            <ctl:Ring StrokeThickness="14" Value="{Binding UsedPercent}" IsSpinning="{Binding IsWorking}"
+                      TrackBrush="{DynamicResource Surface3Brush}" Brush="{DynamicResource AccentGradientBrush}"/>
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+              <TextBlock Text="{Binding UsedPercentText}" Style="{StaticResource Number}" FontSize="36" HorizontalAlignment="Center"/>
+              <TextBlock Text="C 盘已用" Style="{StaticResource Muted}" HorizontalAlignment="Center"/>
+            </StackPanel>
+          </Grid>
+
+          <!-- Center info -->
+          <StackPanel Grid.Column="1" Margin="32,0,24,0" VerticalAlignment="Center">
+            <TextBlock Text="{Binding DriveLabel}" Style="{StaticResource Muted}" FontSize="13"/>
+            <TextBlock Margin="0,6,0,0" FontSize="15">
+              <Run Text="已用 "/><Run Text="{Binding UsedText, Mode=OneWay}" FontWeight="SemiBold"/>
+              <Run Text="  ·  可用 " Foreground="{DynamicResource TextSecondaryBrush}"/><Run Text="{Binding FreeText, Mode=OneWay}" FontWeight="SemiBold" Foreground="{DynamicResource SuccessBrush}"/>
+              <Run Text="  ·  共 " Foreground="{DynamicResource TextSecondaryBrush}"/><Run Text="{Binding TotalText, Mode=OneWay}" Foreground="{DynamicResource TextSecondaryBrush}"/>
+            </TextBlock>
+            <StackPanel Orientation="Horizontal" Margin="0,18,0,0">
+              <TextBlock Text="{Binding HealthScore}" Style="{StaticResource Number}" FontSize="44" Foreground="{DynamicResource TextBrush}"/>
+              <StackPanel VerticalAlignment="Center" Margin="12,0,0,0">
+                <TextBlock Text="健康分" Style="{StaticResource Caption}"/>
+                <Border Style="{StaticResource Badge}" Margin="0,4,0,0" HorizontalAlignment="Left">
+                  <Border.Background><SolidColorBrush Color="{Binding HealthBrushKey, Converter={StaticResource RiskBrush}, ConverterParameter=color}" Opacity="0.15"/></Border.Background>
+                  <TextBlock Text="{Binding HealthText}" Foreground="{Binding HealthBrushKey, Converter={StaticResource RiskBrush}}" FontWeight="SemiBold"/>
+                </Border>
+              </StackPanel>
+            </StackPanel>
+            <TextBlock Text="{Binding HealthHint}" Style="{StaticResource Muted}" FontSize="13" Margin="0,10,0,0"/>
+            <!-- scanning status -->
+            <StackPanel Visibility="{Binding IsWorking, Converter={StaticResource BoolToVis}}" Margin="0,14,0,0">
+              <TextBlock Text="{Binding Stage}" Foreground="{DynamicResource AccentBrush}" FontWeight="SemiBold"/>
+              <ProgressBar IsIndeterminate="True" Margin="0,8,0,0" MaxWidth="420" HorizontalAlignment="Stretch"/>
+              <TextBlock Text="{Binding Status}" Style="{StaticResource Caption}" Margin="0,6,0,0" TextTrimming="CharacterEllipsis"/>
+            </StackPanel>
+          </StackPanel>
+
+          <!-- Action -->
+          <StackPanel Grid.Column="2" VerticalAlignment="Center" MinWidth="200">
+            <Button Style="{StaticResource LargePrimaryButton}" Command="{Binding SmartScanCommand}"
+                    Visibility="{Binding IsIdleState, Converter={StaticResource BoolToVis}}">
+              <StackPanel Orientation="Horizontal"><TextBlock Text="&#xE721;" Style="{StaticResource Icon}" Margin="0,0,10,0"/><TextBlock Text="一键扫描"/></StackPanel>
+            </Button>
+            <StackPanel Visibility="{Binding HasResults, Converter={StaticResource BoolToVis}}">
+              <TextBlock Text="已选可清理" Style="{StaticResource Caption}" HorizontalAlignment="Center"/>
+              <TextBlock Text="{Binding ReclaimableText}" Style="{StaticResource Number}" FontSize="30" Foreground="{DynamicResource AccentBrush}" HorizontalAlignment="Center" Margin="0,2,0,12"/>
+              <Button Style="{StaticResource LargePrimaryButton}" Command="{Binding CleanCommand}">
+                <StackPanel Orientation="Horizontal"><TextBlock Text="&#xE74D;" Style="{StaticResource Icon}" Margin="0,0,10,0"/><TextBlock Text="一键清理"/></StackPanel>
+              </Button>
+              <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,8,0,0">
+                <Button Style="{StaticResource GhostButton}" Content="重新扫描" Command="{Binding SmartScanCommand}"/>
+                <Button Style="{StaticResource GhostButton}" Content="查看详情" Command="{Binding DetailsCommand}"/>
+              </StackPanel>
+            </StackPanel>
+            <Button Style="{StaticResource SecondaryButton}" MinHeight="44" Content="取消" Command="{Binding CancelCommand}"
+                    Visibility="{Binding IsScanning, Converter={StaticResource BoolToVis}}"/>
+            <Button Style="{StaticResource LargePrimaryButton}" Content="完成" Command="{Binding BackCommand}"
+                    Visibility="{Binding IsDone, Converter={StaticResource BoolToVis}}"/>
+          </StackPanel>
+        </Grid>
+      </Border>
+
+      <!-- ============ DONE ============ -->
+      <Border Style="{StaticResource Card}" Visibility="{Binding IsDone, Converter={StaticResource BoolToVis}}" Padding="28">
+        <DockPanel>
+          <Border DockPanel.Dock="Left" Width="64" Height="64" CornerRadius="32" Background="{DynamicResource SuccessSoftBrush}" Margin="0,0,20,0">
+            <TextBlock Text="&#xE73E;" Style="{StaticResource Icon}" FontSize="28" Foreground="{DynamicResource SuccessBrush}"/>
+          </Border>
+          <Button DockPanel.Dock="Right" Style="{StaticResource SecondaryButton}" Content="查看清理记录" VerticalAlignment="Center" Command="{Binding GoCommand}" CommandParameter="report"/>
+          <StackPanel VerticalAlignment="Center">
+            <TextBlock Style="{StaticResource H2}" FontSize="18"><Run Text="清理完成，已释放 "/><Run Text="{Binding FreedText, Mode=OneWay}" Foreground="{DynamicResource SuccessBrush}"/></TextBlock>
+            <TextBlock Text="{Binding DoneDetail}" Style="{StaticResource Muted}" FontSize="13" Margin="0,6,0,0"/>
+          </StackPanel>
+        </DockPanel>
+      </Border>
+
+      <!-- ============ RESULTS ============ -->
+      <StackPanel Visibility="{Binding ShowCats, Converter={StaticResource BoolToVis}}">
+        <DockPanel Margin="2,0,2,12">
+          <TextBlock DockPanel.Dock="Right" Style="{StaticResource Muted}" VerticalAlignment="Center"><Run Text="共发现 "/><Run Text="{Binding FoundText, Mode=OneWay}" Foreground="{DynamicResource TextBrush}" FontWeight="SemiBold"/></TextBlock>
+          <TextBlock Text="扫描结果" Style="{StaticResource H2}"/>
+        </DockPanel>
+        <ItemsControl ItemsSource="{Binding Categories}">
+          <ItemsControl.ItemsPanel><ItemsPanelTemplate><UniformGrid Columns="3"/></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+          <ItemsControl.ItemTemplate>
+            <DataTemplate>
+              <Border Style="{StaticResource HoverCard}" Margin="0,0,12,12" Padding="16,14" MouseLeftButtonUp="Cat_Click">
+                <DockPanel>
+                  <Border DockPanel.Dock="Left" Style="{StaticResource IconTile}" Margin="0,0,12,0" VerticalAlignment="Top">
+                    <TextBlock Text="{Binding Glyph}" Style="{StaticResource Icon}" Foreground="{DynamicResource AccentBrush}"/>
+                  </Border>
+                  <CheckBox DockPanel.Dock="Right" VerticalAlignment="Top" IsChecked="{Binding IsSelected}" Margin="8,0,0,0"
+                            Visibility="{Binding Cleanable, Converter={StaticResource BoolToVis}}" ToolTip="勾选以加入一键清理"/>
+                  <StackPanel>
+                    <TextBlock Text="{Binding Name}" Style="{StaticResource H3}" TextTrimming="CharacterEllipsis" ToolTip="{Binding Description}"/>
+                    <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                      <TextBlock Text="{Binding SizeText}" FontWeight="SemiBold" Foreground="{DynamicResource AccentBrush}" FontSize="15"/>
+                      <Border Style="{StaticResource Badge}" Margin="8,0,0,0" Background="{DynamicResource Surface3Brush}">
+                        <TextBlock Text="{Binding RiskText}" Foreground="{DynamicResource TextSecondaryBrush}"/>
+                      </Border>
+                    </StackPanel>
+                  </StackPanel>
+                </DockPanel>
+              </Border>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+      </StackPanel>
+
+      <!-- ============ IDLE: stats + tools ============ -->
+      <StackPanel Visibility="{Binding ShowCats, Converter={StaticResource InverseBoolToVis}}">
+        <UniformGrid Columns="3" Margin="0,0,-12,4">
+          <Border Style="{StaticResource Card}" Margin="0,0,12,12">
+            <DockPanel>
+              <Border DockPanel.Dock="Left" Style="{StaticResource IconTile}" Background="{DynamicResource SuccessSoftBrush}" Margin="0,0,14,0">
+                <TextBlock Text="&#xE74D;" Style="{StaticResource Icon}" Foreground="{DynamicResource SuccessBrush}"/>
+              </Border>
+              <StackPanel><TextBlock Text="累计释放空间" Style="{StaticResource Caption}"/><TextBlock Text="{Binding TotalFreedText}" Style="{StaticResource Number}" FontSize="22" Margin="0,2,0,0"/></StackPanel>
+            </DockPanel>
+          </Border>
+          <Border Style="{StaticResource Card}" Margin="0,0,12,12">
+            <DockPanel>
+              <Border DockPanel.Dock="Left" Style="{StaticResource IconTile}" Margin="0,0,14,0">
+                <TextBlock Text="&#xE787;" Style="{StaticResource Icon}" Foreground="{DynamicResource AccentBrush}"/>
+              </Border>
+              <StackPanel><TextBlock Text="本月释放" Style="{StaticResource Caption}"/><TextBlock Text="{Binding MonthText}" Style="{StaticResource Number}" FontSize="22" Margin="0,2,0,0"/></StackPanel>
+            </DockPanel>
+          </Border>
+          <Border Style="{StaticResource Card}" Margin="0,0,12,12">
+            <DockPanel>
+              <Border DockPanel.Dock="Left" Style="{StaticResource IconTile}" Background="{DynamicResource WarningSoftBrush}" Margin="0,0,14,0">
+                <TextBlock Text="&#xE81C;" Style="{StaticResource Icon}" Foreground="{DynamicResource WarningBrush}"/>
+              </Border>
+              <StackPanel><TextBlock Text="累计清理次数" Style="{StaticResource Caption}"/><TextBlock Text="{Binding RunsText}" Style="{StaticResource Number}" FontSize="22" Margin="0,2,0,0"/></StackPanel>
+            </DockPanel>
+          </Border>
+        </UniformGrid>
+
+        <TextBlock Text="常用工具" Style="{StaticResource H2}" Margin="2,4,0,12"/>
+        <UniformGrid Columns="3" Margin="0,0,-12,0">
+          <UniformGrid.Resources>
+            <Style x:Key="Tool" TargetType="Button" BasedOn="{StaticResource ButtonBase}">
+              <Setter Property="Background" Value="{DynamicResource SurfaceBrush}"/>
+              <Setter Property="Margin" Value="0,0,12,12"/>
+              <Setter Property="Padding" Value="16"/>
+              <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+              <Setter Property="Command" Value="{Binding GoCommand}"/>
+            </Style>
+          </UniformGrid.Resources>
+          <Button Style="{StaticResource Tool}" CommandParameter="large">
+            <DockPanel Width="240"><Border DockPanel.Dock="Left" Style="{StaticResource IconTile}" Margin="0,0,12,0"><TextBlock Text="&#xE7C3;" Style="{StaticResource Icon}" Foreground="{DynamicResource AccentBrush}"/></Border>
+              <StackPanel VerticalAlignment="Center"><TextBlock Text="大文件扫描" Style="{StaticResource H3}"/><TextBlock Text="找出占用最多的文件" Style="{StaticResource Caption}"/></StackPanel></DockPanel>
+          </Button>
+          <Button Style="{StaticResource Tool}" CommandParameter="space">
+            <DockPanel Width="240"><Border DockPanel.Dock="Left" Style="{StaticResource IconTile}" Margin="0,0,12,0"><TextBlock Text="&#xEB05;" Style="{StaticResource Icon}" Foreground="{DynamicResource AccentBrush}"/></Border>
+              <StackPanel VerticalAlignment="Center"><TextBlock Text="空间分析" Style="{StaticResource H3}"/><TextBlock Text="矩形树图看清空间去向" Style="{StaticResource Caption}"/></StackPanel></DockPanel>
+          </Button>
+          <Button Style="{StaticResource Tool}" CommandParameter="chat">
+            <DockPanel Width="240"><Border DockPanel.Dock="Left" Style="{StaticResource IconTile}" Margin="0,0,12,0"><TextBlock Text="&#xE8BD;" Style="{StaticResource Icon}" Foreground="{DynamicResource AccentBrush}"/></Border>
+              <StackPanel VerticalAlignment="Center"><TextBlock Text="聊天软件专清" Style="{StaticResource H3}"/><TextBlock Text="微信 / QQ / 钉钉 文件" Style="{StaticResource Caption}"/></StackPanel></DockPanel>
+          </Button>
+          <Button Style="{StaticResource Tool}" CommandParameter="dup">
+            <DockPanel Width="240"><Border DockPanel.Dock="Left" Style="{StaticResource IconTile}" Margin="0,0,12,0"><TextBlock Text="&#xE8C8;" Style="{StaticResource Icon}" Foreground="{DynamicResource AccentBrush}"/></Border>
+              <StackPanel VerticalAlignment="Center"><TextBlock Text="重复文件查找" Style="{StaticResource H3}"/><TextBlock Text="内容哈希精确比对" Style="{StaticResource Caption}"/></StackPanel></DockPanel>
+          </Button>
+          <Button Style="{StaticResource Tool}" CommandParameter="uninstall">
+            <DockPanel Width="240"><Border DockPanel.Dock="Left" Style="{StaticResource IconTile}" Margin="0,0,12,0"><TextBlock Text="&#xE71D;" Style="{StaticResource Icon}" Foreground="{DynamicResource AccentBrush}"/></Border>
+              <StackPanel VerticalAlignment="Center"><TextBlock Text="软件卸载" Style="{StaticResource H3}"/><TextBlock Text="卸载并清理残留" Style="{StaticResource Caption}"/></StackPanel></DockPanel>
+          </Button>
+          <Button Style="{StaticResource Tool}" CommandParameter="sysmove">
+            <DockPanel Width="240"><Border DockPanel.Dock="Left" Style="{StaticResource IconTile}" Margin="0,0,12,0"><TextBlock Text="&#xEDA2;" Style="{StaticResource Icon}" Foreground="{DynamicResource AccentBrush}"/></Border>
+              <StackPanel VerticalAlignment="Center"><TextBlock Text="系统盘搬家" Style="{StaticResource H3}"/><TextBlock Text="迁移虚拟内存与 TEMP" Style="{StaticResource Caption}"/></StackPanel></DockPanel>
+          </Button>
+        </UniformGrid>
+      </StackPanel>
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>

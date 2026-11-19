@@ -1,0 +1,36 @@
+<UserControl x:Class="DiskPro.App.Views.AboutPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <ScrollViewer VerticalScrollBarVisibility="Auto">
+    <StackPanel MaxWidth="980">
+      <Border CornerRadius="16" Padding="28" Background="{DynamicResource HeroBrush}" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" Margin="0,0,0,16">
+        <DockPanel>
+          <Border DockPanel.Dock="Left" Width="72" Height="72" CornerRadius="18" Background="{DynamicResource AccentGradientBrush}" Margin="0,0,20,0">
+            <TextBlock Text="&#xEDA2;" Style="{StaticResource Icon}" FontSize="34" Foreground="White"/>
+          </Border>
+          <StackPanel VerticalAlignment="Center">
+            <TextBlock Text="DiskPro C盘清理大师" Style="{StaticResource H1}"/>
+            <TextBlock Style="{StaticResource Muted}" FontSize="13" Margin="0,6,0,0"><Run Text="版本 "/><Run Text="{Binding Version, Mode=OneWay}"/><Run Text="  ·  "/><Run Text="{Binding Runtime, Mode=OneWay}"/></TextBlock>
+          </StackPanel>
+        </DockPanel>
+      </Border>
+      <Border Style="{StaticResource Card}">
+        <Grid>
+          <Grid.ColumnDefinitions><ColumnDefinition Width="140"/><ColumnDefinition/></Grid.ColumnDefinitions>
+          <Grid.RowDefinitions><RowDefinition Height="30"/><RowDefinition Height="30"/><RowDefinition Height="30"/></Grid.RowDefinitions>
+          <TextBlock Text="操作系统" Style="{StaticResource Muted}" VerticalAlignment="Center"/><TextBlock Grid.Column="1" Text="{Binding Os}" VerticalAlignment="Center"/>
+          <TextBlock Grid.Row="1" Text="管理员权限" Style="{StaticResource Muted}" VerticalAlignment="Center"/><TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Admin}" VerticalAlignment="Center"/>
+          <TextBlock Grid.Row="2" Text="数据目录" Style="{StaticResource Muted}" VerticalAlignment="Center"/>
+          <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal"><TextBlock Text="{Binding DataDir}" VerticalAlignment="Center"/><Button Style="{StaticResource GhostButton}" Content="打开" Command="{Binding OpenDataCommand}" MinHeight="26"/></StackPanel>
+        </Grid>
+      </Border>
+      <Border Style="{StaticResource Card}">
+        <StackPanel>
+          <TextBlock Text="安全承诺" Style="{StaticResource H2}" Margin="0,0,0,10"/>
+          <TextBlock Style="{StaticResource Body}" Foreground="{DynamicResource TextSecondaryBrush}" LineHeight="22"
+                     Text="DiskPro 遵循“先预览、后确认、可回收”的原则：所有删除操作都会列出清单与大小并要求确认，个人文件默认移入回收站，并写入操作日志。System32、WinSxS、Program Files 根目录等系统关键位置受硬性保护，任何模块都无法删除。隐私清理绝不触碰已保存的密码与书签；聊天软件专清不会列出聊天记录数据库。"/>
+        </StackPanel>
+      </Border>
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>
