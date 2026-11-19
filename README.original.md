@@ -61,7 +61,6 @@ dotnet publish src/DiskPro.App/DiskPro.App.csproj -c Release -r win-x64 \
   -p:IncludeNativeLibrariesForSelfExtract=true -p:EnableCompressionInSingleFile=true \
   -p:EnableWindowsTargeting=true -o publish/win-x64
 ```
-
 或直接运行 `./build.sh`。
 
 ### 项目结构
@@ -71,7 +70,6 @@ src/DiskPro.Core     核心库（net8.0，无 UI 依赖）：扫描器、去重�
 src/DiskPro.App      WPF 界面（MVVM：ViewModels / Views / Themes / Services）
 tests/DiskPro.Tests  xUnit 单元测试（可在 Linux 上运行）
 ```
-
 ## 已知限制
 
 - 界面在 Linux 上交叉编译，需在真实 Windows 上做最终验收。

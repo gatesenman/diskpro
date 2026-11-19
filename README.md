@@ -31,23 +31,21 @@
 
 - .NET 8
 - WPF（`net8.0-windows`）
-- 解决方案：`src/DiskPro.sln`
+- 解决方案：`DiskPro.sln`
 
 ## 从源码运行
 
-源码在 `src/`。本仓库不包含安装包。在 Windows 上：
+源码在仓库根目录。本仓库不包含安装包。在 Windows 上：
 
 ```bash
-cd src
 dotnet build DiskPro.sln -c Release
 dotnet run --project src/DiskPro.App/DiskPro.App.csproj
 ```
-
-需要 Windows 与 .NET 8 SDK。程序启动时可能弹出 UAC。更完整的模块说明见 `src/README.md`（请忽略其中未包含在本仓库的 release 可执行文件路径）。
+需要 Windows 与 .NET 8 SDK。程序启动时可能弹出 UAC。更完整的模块说明见 `README.original.md`（请忽略其中未包含在本仓库的 release 可执行文件路径）。
 
 ## 文档
 
-- [源码 README](src/README.md)
+- [源码 README](README.original.md)
 
 ---
 
@@ -86,21 +84,19 @@ dotnet run --project src/DiskPro.App/DiskPro.App.csproj
 
 - .NET 8
 - WPF（`net8.0-windows`）
-- 解决方案：`src/DiskPro.sln`
+- 解决方案：`DiskPro.sln`
 
 ## Getting started
 
-Source is under `src/`. This repository does not include installers. On Windows:
+Source is at the repository root. This repository does not include installers. On Windows:
 
 ```bash
-cd src
 dotnet build DiskPro.sln -c Release
 dotnet run --project src/DiskPro.App/DiskPro.App.csproj
 ```
-
-Requires Windows and the .NET 8 SDK. The app may prompt for UAC. See `src/README.md` for modules; ignore release exe paths that are not in this repository.
+Requires Windows and the .NET 8 SDK. The app may prompt for UAC. See `README.original.md` for modules; ignore release exe paths that are not in this repository.
 
 ## Documentation
 
-- [源码 README](src/README.md)
+- [源码 README](README.original.md)
 
